@@ -9,7 +9,10 @@ let maplocalleader = "\<space>"
 
 " Include fzf from homebrew
 set rtp+=/usr/local/opt/fzf
-nnoremap <leader>o :<C-U>FZF .<CR>
+nnoremap <leader>oo :<C-U>FZF .<CR>
+nnoremap <leader>ot :<C-U>tabedit<CR>:FZF .<CR>
+nnoremap <leader>ov :<C-U>vs<CR>:FZF .<CR>
+nnoremap <leader>os :<C-U>sp<CR>:FZF .<CR>
 
 " Netrw ---------------------- {{{
 let g:netrw_preview   = 1
@@ -30,10 +33,13 @@ au TermOpen * setlocal nonumber norelativenumber
 autocmd BufEnter term://* startinsert
 autocmd BufLeave term://* stopinsert
 
-" Open, close, switch window
-nnoremap <leader>t :vs<CR>:terminal<CR>i
+" Open, close, switch window, open in tab, switch tab
+nnoremap <leader>tv :vs<CR>:terminal<CR>i
+nnoremap <leader>ts :sp<CR>:terminal<CR>i
+nnoremap <leader>tt :tabedit<CR>:terminal<CR>i
 tnoremap <C-q> <C-\><C-n>:q<CR>
 tnoremap <C-w><C-w> <C-\><C-n><C-w><C-w>
+tnoremap gt <C-\><C-n>gt
 
 " }}}
 
@@ -88,6 +94,83 @@ let g:airline_section_z = '%3p%% %3l/%L:%3v'
 set omnifunc=syntaxcomplete#Complete
 let g:SuperTabDefaultCompletionType = 'context'
 let g:SuperTabNoCompleteAfter = ['^', '^(\s|\t)+', '\s', '\t']
+
+" Linting ---------------------- {{{
+"
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_auto_loc_list = 0
+let g:syntastic_check_on_open = 1
+let g:syntastic_check_on_wq = 0
+
+let g:syntastic_javascript_checkers = ['jshint', 'eslint', 'flow']
+let g:syntastic_elm_checkers = ['elm_make']
+let g:syntastic_go_checkers = ['go']
+let g:syntastic_haskell_checkers = ['']
+
+" }}}
+
+iabbrev lenght length
+
+" Key mappings ---------------------- {{{
+
+" write all
+nnoremap <leader>w :<C-U>wa<CR>
+" write all and quit
+nnoremap <leader>qq :<C-U>wqa<CR>
+
+" open splits/tabs
+nnoremap <leader>nt :<C-U>tabedit<CR>
+nnoremap <leader>nv :<C-U>vs<CR>
+nnoremap <leader>ns :<C-U>sp<CR>
+
+" close current
+nnoremap <leader>c :<C-U>wq<CR>
+
+" Use <C-L> to clear the highlighting of :set hlsearch.
+if maparg('<C-L>', 'n') ==# ''
+    nnoremap <silent> <C-L> :nohlsearch<CR><C-L>
+endif
+
+" Search and Replace
+nnoremap <Leader>sr :%s//g<Left><Left>
+
+" Open configs
+nnoremap <leader>ev :tabedit $MYVIMRC<CR>
+nnoremap <leader>sv :source $MYVIMRC<CR>
+
+" Oh Goodies
+command! WQ wq
+command! WQA wqa
+command! Wqa wqa
+command! W w
+command! Wa wa
+command! WA wa
+command! Q q
+
+inoremap <C-E> <C-O><C-E>
+
+" Formatting
+nnoremap - :m-2<CR>==
+nnoremap _ :m+1<CR>==
+nnoremap <CR> $a<CR><esc>
+
+" Reindent the whole file
+nnoremap <leader>ri migg=G`i
+
+" Extras
+fun! ReadMan()
+    let s:man_word = expand('<cword>')
+    :exe ":wincmd n"
+    :exe ":r!man " . s:man_word . " | col -b"
+    :exe ":goto"
+endfun
+" K to read the manual for underlying word
+nnoremap K :call ReadMan()<CR>
+
+" Clear all registers
+command! WipeReg for i in range(34,122) | silent! call setreg(nr2char(i), []) | endfor
+
+" }}}
 
 " Filetype specific---------------------- {{{
 filetype plugin on
@@ -151,81 +234,10 @@ let g:hindent_on_save = 0
 let g:hindent_indent_size = 2
 let g:hindent_line_length = 120
 
-let g:haskell_indent_let = 4
-let g:haskell_indent_in = 1
-let g:haskell_indent_where = 6
-
-let g:haskell_enable_quantification = 1   " enable highlighting of `forall`
-" let g:haskell_enable_recursivedo = 1      " enable highlighting of `mdo` and `rec`
-" let g:haskell_enable_arrowsyntax = 1      " enable highlighting of `proc`
-let g:haskell_enable_pattern_synonyms = 1 " enable highlighting of `pattern`
-let g:haskell_enable_typeroles = 1        " enable highlighting of type roles
-" let g:haskell_enable_static_pointers = 1  " enable highlighting of `static`
-" let g:haskell_backpack = 1                " enable highlighting of backpack keywords
-
 augroup filetype_haskell
     autocmd!
-    autocmd VimEnter *.hs :nnoremap <leader>i :<C-U>Hindent<CR>
+    " Haskell specific ReIndent
+    autocmd VimEnter *.hs :nnoremap <leader>ri :<C-U>Hindent<CR>
 augroup END
 
-" }}}
-
-" Linting ---------------------- {{{
-let g:syntastic_always_populate_loc_list = 1
-let g:syntastic_auto_loc_list = 0
-let g:syntastic_check_on_open = 1
-let g:syntastic_check_on_wq = 0
-
-let g:syntastic_javascript_checkers = ['jshint', 'eslint', 'flow']
-let g:syntastic_elm_checkers = ['elm_make']
-let g:syntastic_go_checkers = ['go']
-" }}}
-
-iabbrev lenght length
-
-" Key mappings ---------------------- {{{
-
-" write all
-nnoremap <leader>w :<C-U>wa<CR>
-
-" Use <C-L> to clear the highlighting of :set hlsearch.
-if maparg('<C-L>', 'n') ==# ''
-    nnoremap <silent> <C-L> :nohlsearch<CR><C-L>
-endif
-
-" Search and Replace
-nnoremap <Leader>r :%s//g<Left><Left>
-
-" Open configs
-nnoremap <leader>ev :tabedit $MYVIMRC<CR>
-nnoremap <leader>sv :source $MYVIMRC<CR>
-
-" Oh Goodies
-command! WQ wq
-command! WQA wqa
-command! Wqa wqa
-command! W w
-command! Wa wa
-command! WA wa
-command! Q q
-
-inoremap <C-E> <C-O><C-E>
-
-" Formatting
-nnoremap - :m-2<CR>==
-nnoremap _ :m+1<CR>==
-nnoremap <CR> $a<CR><esc>
-
-" Extras
-fun! ReadMan()
-    let s:man_word = expand('<cword>')
-    :exe ":wincmd n"
-    :exe ":r!man " . s:man_word . " | col -b"
-    :exe ":goto"
-endfun
-" K to read the manual for underlying word
-nnoremap K :call ReadMan()<CR>
-
-" Clear all registers
-command! WipeReg for i in range(34,122) | silent! call setreg(nr2char(i), []) | endfor
 " }}}
