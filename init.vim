@@ -11,8 +11,8 @@ let maplocalleader = "\<space>"
 set rtp+=/usr/local/opt/fzf
 nnoremap <leader>oo :<C-U>FZF .<CR>
 nnoremap <leader>ot :<C-U>tabedit<CR>:FZF .<CR>
-nnoremap <leader>ov :<C-U>vs<CR>:FZF .<CR>
-nnoremap <leader>os :<C-U>sp<CR>:FZF .<CR>
+nnoremap <leader>ov <C-w><C-v>:FZF .<CR>
+nnoremap <leader>os <C-w><C-s>:FZF .<CR>
 
 " Netrw ---------------------- {{{
 let g:netrw_preview   = 1
@@ -53,6 +53,8 @@ set scrolloff=3
 set autoindent smartindent
 set tabstop=2 shiftwidth=2
 set softtabstop=-1 shiftround expandtab
+" cursor line
+set cursorline
 
 " window behaviour
 set splitright splitbelow
@@ -65,8 +67,7 @@ endif
 
 " enable syntax files
 syntax on
-" don't open lines with comments
-set formatoptions-=o
+
 " don't jump to begginning of line on page jumps
 set nostartofline
 
@@ -87,6 +88,7 @@ set noshowmode " Hide mode indicator - included in airline
 let g:airline#extensions#tabline#enabled = 1
 "let g:airline#extensions#whitespace#enabled = 0
 let g:airline#parts#ffenc#skip_expected_string='utf-8[unix]'
+let g:airline_section_c = '%{ObsessionStatus()} %f'
 let g:airline_section_z = '%3p%% %3l/%L:%3v'
 " }}}
 
@@ -114,17 +116,31 @@ iabbrev lenght length
 " Key mappings ---------------------- {{{
 
 " write all
-nnoremap <leader>w :<C-U>wa<CR>
+nnoremap <silent> <leader>w :<C-U>wa<CR>
 " write all and quit
-nnoremap <leader>qq :<C-U>wqa<CR>
-
-" open splits/tabs
-nnoremap <leader>nt :<C-U>tabedit<CR>
-nnoremap <leader>nv :<C-U>vs<CR>
-nnoremap <leader>ns :<C-U>sp<CR>
-
+nnoremap <silent> <leader>qq :<C-U>wqa<CR>
 " close current
-nnoremap <leader>c :<C-U>wq<CR>
+fun! CloseCurrent()
+    if &readonly || @% == ""
+        execute ':q'
+    else
+        execute ':wq'
+    endif
+endfun
+nnoremap <silent> <C-c> :<C-u>call CloseCurrent()<CR>
+nnoremap <silent> <leader>c :<C-u>call CloseCurrent()<CR>
+
+" horizontal <-> vertical splits
+nnoremap <leader>swh <C-w>t<C-w>K
+nnoremap <leader>swv <C-w>t<C-w>H
+
+" switch split
+nnoremap <CR> <C-w><C-w>
+
+" switch buffer
+nnoremap <silent> <C-n> :bnext<CR>
+nnoremap <silent> <C-p> :bprevious<CR>
+nnoremap <C-x> :bdelete<CR>
 
 " Use <C-L> to clear the highlighting of :set hlsearch.
 if maparg('<C-L>', 'n') ==# ''
@@ -135,8 +151,8 @@ endif
 nnoremap <Leader>sr :%s//g<Left><Left>
 
 " Open configs
-nnoremap <leader>ev :tabedit $MYVIMRC<CR>
-nnoremap <leader>sv :source $MYVIMRC<CR>
+nnoremap <silent> <leader>ev :tabedit $MYVIMRC<CR>
+nnoremap <silent> <leader>sv :source $MYVIMRC<CR>
 
 " Oh Goodies
 command! WQ wq
@@ -149,22 +165,18 @@ command! Q q
 
 inoremap <C-E> <C-O><C-E>
 
-" Formatting
-nnoremap - :m-2<CR>==
-nnoremap _ :m+1<CR>==
-nnoremap <CR> $a<CR><esc>
+nnoremap Q @q
 
 " Reindent the whole file
 nnoremap <leader>ri migg=G`i
 
-" Extras
+" K to read the manual for underlying word
 fun! ReadMan()
     let s:man_word = expand('<cword>')
     :exe ":wincmd n"
     :exe ":r!man " . s:man_word . " | col -b"
     :exe ":goto"
 endfun
-" K to read the manual for underlying word
 nnoremap K :call ReadMan()<CR>
 
 " Clear all registers
@@ -192,7 +204,8 @@ augroup END
 " markdown
 augroup filetype_markdown
     autocmd!
-    autocmd FileType markdown set spell
+    autocmd FileType markdown set tw=72 spell wrap
+    autocmd FileType markdown packadd markdown-preview.vim
 augroup END
 
 " HTML, CSS
@@ -232,7 +245,7 @@ augroup END
 " Haskell
 let g:hindent_on_save = 0
 let g:hindent_indent_size = 2
-let g:hindent_line_length = 120
+let g:hindent_line_length = 79
 
 augroup filetype_haskell
     autocmd!
@@ -241,3 +254,9 @@ augroup filetype_haskell
 augroup END
 
 " }}}
+
+" don't open lines with comments, don't insert comment leader in insert mode
+set formatoptions-=o
+set formatoptions-=r
+" remove comment leader on join
+set formatoptions+=j

@@ -8,10 +8,18 @@ Plugins:
 - auto-pairs
 - syntastic
 - vim-surround
-- vim-gitgutter
 - rainbow-parentheses
 - supertab
 - vim-commentary
+- repeat
+- unimpaired
+- obsession
+- markdown-preview.vim
+
+Git:
+- vim-git
+- vim-gitgutter
+- vim-fugitive
 
 Haskell:
 - haskell-vim
