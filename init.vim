@@ -15,6 +15,11 @@ set formatoptions=jcql
 " enable plugins
 let g:deoplete#enable_at_startup = 1
 
+let g:UltiSnipsExpandTrigger="<c-q>"
+let g:UltiSnipsJumpForwardTrigger="<c-b>"
+let g:UltiSnipsJumpBackwardTrigger="<c-z>"
+let g:UltiSnipsEditSplit="horizontal"
+
 " Include fzf from homebrew
 set rtp+=/usr/local/opt/fzf
 nnoremap <leader>oo :<C-U>FZF .<CR>
