@@ -7,6 +7,14 @@ endif
 let mapleader = "\<space>"
 let maplocalleader = "\<space>"
 
+" don't open lines with comments
+" don't insert comment leader in insert mode
+" remove comment leader on join
+set formatoptions=jcql
+
+" enable plugins
+let g:deoplete#enable_at_startup = 1
+
 " Include fzf from homebrew
 set rtp+=/usr/local/opt/fzf
 nnoremap <leader>oo :<C-U>FZF .<CR>
@@ -104,14 +112,12 @@ let g:syntastic_auto_loc_list = 0
 let g:syntastic_check_on_open = 1
 let g:syntastic_check_on_wq = 0
 
-let g:syntastic_javascript_checkers = ['jshint', 'eslint', 'flow']
+let g:syntastic_javascript_checkers = ['jshint', 'eslint']
 let g:syntastic_elm_checkers = ['elm_make']
 let g:syntastic_go_checkers = ['go']
 let g:syntastic_haskell_checkers = ['']
 
 " }}}
-
-iabbrev lenght length
 
 " Key mappings ---------------------- {{{
 
@@ -140,7 +146,7 @@ nnoremap <CR> <C-w><C-w>
 " switch buffer
 nnoremap <silent> <C-n> :bnext<CR>
 nnoremap <silent> <C-p> :bprevious<CR>
-nnoremap <C-x> :bdelete<CR>
+nnoremap <silent> <C-x> :bdelete<CR>
 
 " Use <C-L> to clear the highlighting of :set hlsearch.
 if maparg('<C-L>', 'n') ==# ''
@@ -226,6 +232,9 @@ augroup END
 
 " Javascript
 let g:javascript_plugin_jsdoc = 1
+augroup filetype_js
+    autocmd!
+augroup END
 
 " Elm
 augroup filetype_elm
@@ -255,8 +264,5 @@ augroup END
 
 " }}}
 
-" don't open lines with comments, don't insert comment leader in insert mode
-set formatoptions-=o
-set formatoptions-=r
-" remove comment leader on join
-set formatoptions+=j
+" abbreviations
+iabbrev lenght length
