@@ -1,13 +1,37 @@
-[submodule "pack/plugins/start/auto-pairs"]
-	path = pack/plugins/start/auto-pairs
-	url = https://github.com/jiangmiao/auto-pairs.git
+
+[submodule "pack/themes/opt/solarized8"]
+	path = pack/themes/opt/solarized8
+	url = https://github.com/lifepillar/vim-solarized8
 [submodule "pack/plugins/start/vim-surround"]
 	path = pack/plugins/start/vim-surround
 	url = https://github.com/tpope/vim-surround.git
+[submodule "pack/plugins/start/auto-pairs"]
+	path = pack/plugins/start/auto-pairs
+	url = https://github.com/jiangmiao/auto-pairs
+[submodule "pack/plugins/start/supertab"]
+	path = pack/plugins/start/supertab
+	url = https://github.com/ervandew/supertab
+[submodule "pack/plugins/start/vim-commentary"]
+	path = pack/plugins/start/vim-commentary
+	url = https://github.com/tpope/vim-commentary
+[submodule "pack/plugins/start/vim-repeat"]
+	path = pack/plugins/start/vim-repeat
+	url = https://github.com/tpope/vim-repeat
 [submodule "pack/plugins/start/vim-unimpaired"]
 	path = pack/plugins/start/vim-unimpaired
 	url = https://github.com/tpope/vim-unimpaired
-
-[submodule "pack/themes/opt/solarized8"]
-  path = pack/themes/opt/solarized8
-  utl = https://github.com/lifepillar/vim-solarized8
+[submodule "pack/plugins/start/vim-obsession"]
+	path = pack/plugins/start/vim-obsession
+	url = https://github.com/tpope/vim-obsession
+[submodule "pack/plugins/start/vim-gitgutter"]
+	path = pack/plugins/start/vim-gitgutter
+	url = https://github.com/airblade/vim-gitgutter
+[submodule "pack/plugins/start/vim-fugitive"]
+	path = pack/plugins/start/vim-fugitive
+	url = https://github.com/tpope/vim-fugitive
+[submodule "pack/plugins/start/vim-git"]
+	path = pack/plugins/start/vim-git
+	url = https://github.com/tpope/vim-git
+[submodule "pack/plugins/start/vim-airline"]
+	path = pack/plugins/start/vim-airline
+	url = https://github.com/vim-airline/vim-airline
