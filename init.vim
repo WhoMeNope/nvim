@@ -27,6 +27,15 @@ nnoremap <leader>ot :<C-U>tabedit<CR>:FZF .<CR>
 nnoremap <leader>ov <C-w><C-v>:FZF .<CR>
 nnoremap <leader>os <C-w><C-s>:FZF .<CR>
 
+" Edit new file
+nnoremap <leader>nn :<C-U>e 
+nnoremap <leader>ns <C-w><C-s>:<C-U>e 
+nnoremap <leader>nv <C-w><C-v>:<C-U>e 
+nnoremap <leader>nt :<C-U>tabedit 
+
+" write as sudo
+cnoremap w!! execute 'silent! write !sudo tee % >/dev/null' <bar> edit!
+
 " Netrw ---------------------- {{{
 let g:netrw_preview   = 1
 let g:netrw_liststyle = 3
@@ -117,7 +126,7 @@ let g:syntastic_auto_loc_list = 0
 let g:syntastic_check_on_open = 1
 let g:syntastic_check_on_wq = 0
 
-let g:syntastic_javascript_checkers = ['jshint', 'eslint']
+let g:syntastic_javascript_checkers = ['eslint']
 let g:syntastic_elm_checkers = ['elm_make']
 let g:syntastic_go_checkers = ['go']
 let g:syntastic_haskell_checkers = ['']
@@ -149,9 +158,9 @@ nnoremap <leader>swv <C-w>t<C-w>H
 nnoremap <CR> <C-w><C-w>
 
 " switch buffer
-nnoremap <silent> <C-n> :bnext<CR>
-nnoremap <silent> <C-p> :bprevious<CR>
-nnoremap <silent> <C-x> :bdelete<CR>
+nnoremap <silent> <C-n> :w<CR>:bnext<CR>
+nnoremap <silent> <C-p> :w<CR>:bprevious<CR>
+nnoremap <silent> <C-x> :w<CR>:bdelete<CR>
 
 " Use <C-L> to clear the highlighting of :set hlsearch.
 if maparg('<C-L>', 'n') ==# ''
@@ -173,6 +182,8 @@ command! W w
 command! Wa wa
 command! WA wa
 command! Q q
+command! Qa qa
+command! QA qa
 
 inoremap <C-E> <C-O><C-E>
 
@@ -236,15 +247,23 @@ augroup filetype_java
 augroup END
 
 " Javascript
-let g:javascript_plugin_jsdoc = 1
-augroup filetype_js
-    autocmd!
-augroup END
+let g:jsx_ext_required = 0 " Enable jsx for js all files
+" augroup filetype_javascript
+"     autocmd!
+" augroup END
 
 " Elm
 augroup filetype_elm
     autocmd!
     autocmd FileType elm setlocal tabstop=4 shiftwidth=4
+augroup END
+
+" Assembly
+augroup filetype_asm
+    autocmd!
+    autocmd FileType asm setlocal tabstop=4 shiftwidth=4 noexpandtab
+    autocmd FileType asm let SuperTabDisabled=1
+    autocmd FileType asm setlocal commentstring=#\ %s
 augroup END
 
 " Clojure
@@ -259,7 +278,7 @@ augroup END
 " Haskell
 let g:hindent_on_save = 0
 let g:hindent_indent_size = 2
-let g:hindent_line_length = 79
+let g:hindent_line_length = 80
 
 augroup filetype_haskell
     autocmd!
@@ -269,5 +288,9 @@ augroup END
 
 " }}}
 
+" disable moving parentheses - detects '<' as a start of sequence in insert mode
+let g:AutoPairsMoveCharacter=""
+
 " abbreviations
 iabbrev lenght length
+
