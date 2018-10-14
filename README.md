@@ -1,10 +1,20 @@
 # neovim
+Minimal productive configuration
+
+![](https://raw.github.com/lifepillar/Resources/master/solarized8/solarized8_dark_256.png)
 
 ```vim
 colorscheme solarized8_high
-```
-\+ airline
+enable airline
 
+let mapleader = "\<space>"
+let maplocalleader = "\<space>"
+```
+
+## Customizing and overrides
+Place custom configuration and overrides into "local.vim".
+
+## Contains
 Plugins:
 - vim-surround
   - vim-jdaddy
@@ -24,7 +34,7 @@ Plugins:
 - vim-css-color
 - vim-repeat
 
-Git:
+Git plugins:
 - vim-git
 - vim-gitgutter
 - vim-fugitive
