@@ -7,12 +7,14 @@ endif
 let mapleader = "\<space>"
 let maplocalleader = "\<space>"
 
-" don't open lines with comments
-" don't insert comment leader in insert mode
-" remove comment leader on join
-set formatoptions=jcql
+" source terminal config, if exists and terminal is supported
+let terminal_config = $HOME . "/.config/nvim/terminal.vim"
+if filereadable(terminal_config) && exists(':tnoremap')
+    execute "source " . terminal_config
+endif
 
 " Netrw ---------------------- {{{
+
 let g:netrw_preview   = 1
 let g:netrw_liststyle = 3
 let g:netrw_winsize   = 20
@@ -21,25 +23,6 @@ let g:netrw_altv      = 1
 let g:netrw_list_hide = netrw_gitignore#Hide() . '.*\.swp$,.*\.un\~$,.git/$'
 
 nnoremap <leader>l :Lexplore<CR>
-
-" }}}
-
-" Terminal ---------------------- {{{
-
-" No linenumbers in terminal
-au TermOpen * setlocal nonumber norelativenumber
-
-" Autoinsert mode
-autocmd BufEnter term://* startinsert
-autocmd BufLeave term://* stopinsert
-
-" Open, close, switch window, open in tab, switch tab
-nnoremap <leader>tv :vs<CR>:terminal<CR>i
-nnoremap <leader>ts :sp<CR>:terminal<CR>i
-nnoremap <leader>tt :tabedit<CR>:terminal<CR>i
-tnoremap <C-q> <C-\><C-n>:q<CR>
-tnoremap <C-w><C-w> <C-\><C-n><C-w><C-w>
-tnoremap gt <C-\><C-n>gt
 
 " }}}
 
@@ -80,6 +63,7 @@ set nostartofline
 " }}}
 
 " Look & Feel ---------------------- {{{
+
 let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
 let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
 set termguicolors
@@ -96,6 +80,7 @@ let g:airline#extensions#tabline#enabled = 1
 let g:airline#parts#ffenc#skip_expected_string='utf-8[unix]'
 let g:airline_section_c = '%{ObsessionStatus()} %f'
 let g:airline_section_z = '%3p%% %3l/%L:%3v'
+
 " }}}
 
 " Enable syntax highlight completion
@@ -236,3 +221,11 @@ let local_config = $HOME . "/.config/nvim/local.vim"
 if filereadable(local_config)
     execute "source " . local_config
 endif
+
+" don't open lines with comments
+" don't insert comment leader in insert mode
+" remove comment leader on join
+augroup global
+    autocmd!
+    autocmd FileType * set formatoptions=jcql
+augroup END
