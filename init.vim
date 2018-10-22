@@ -221,6 +221,12 @@ augroup global
     autocmd FileType * set formatoptions=jcql
 augroup END
 
+" source coc config, if exists
+let coc_config = $HOME . "/.config/nvim/coc.vim"
+if filereadable(coc_config)
+    execute "source " . coc_config
+endif
+
 " source local config, if exists
 " leave at the end so defaults can be overridden
 let local_config = $HOME . "/.config/nvim/local.vim"
