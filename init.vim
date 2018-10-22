@@ -57,6 +57,10 @@ endif
 " enable syntax files
 syntax on
 
+" enable filetype plugins
+filetype on
+filetype plugin indent on
+
 " don't jump to begginning of line on page jumps
 set nostartofline
 
@@ -82,10 +86,6 @@ let g:airline_section_c = '%{ObsessionStatus()} %f'
 let g:airline_section_z = '%3p%% %3l/%L:%3v'
 
 " }}}
-
-" Enable syntax highlight completion
-let g:SuperTabDefaultCompletionType = 'context'
-let g:SuperTabNoCompleteAfter = ['^', '^(\s|\t)+', '\s', '\t']
 
 " Key mappings ---------------------- {{{
 
@@ -150,14 +150,14 @@ inoremap <C-E> <C-O><C-E>
 " Reindent the whole file
 nnoremap <leader>ri migg=G`i
 
-" K to read the manual for underlying word
+" read the manual for underlying word
 fun! ReadMan()
     let s:man_word = expand('<cword>')
     :exe ":wincmd n"
     :exe ":r!man " . s:man_word . " | col -b"
     :exe ":goto"
 endfun
-nnoremap K :call ReadMan()<CR>
+nnoremap M :call ReadMan()<CR>
 
 " Clear all registers
 command! WipeReg for i in range(34,122) | silent! call setreg(nr2char(i), []) | endfor
@@ -165,8 +165,6 @@ command! WipeReg for i in range(34,122) | silent! call setreg(nr2char(i), []) | 
 " }}}
 
 " Filetype specific---------------------- {{{
-filetype plugin on
-filetype plugin indent on
 
 " vim
 augroup filetype_vim
@@ -215,13 +213,6 @@ let g:AutoPairsMoveCharacter=""
 " abbreviations
 iabbrev lenght length
 
-" source local config, if exists
-" leave at the end so defaults can be overridden
-let local_config = $HOME . "/.config/nvim/local.vim"
-if filereadable(local_config)
-    execute "source " . local_config
-endif
-
 " don't open lines with comments
 " don't insert comment leader in insert mode
 " remove comment leader on join
@@ -229,3 +220,10 @@ augroup global
     autocmd!
     autocmd FileType * set formatoptions=jcql
 augroup END
+
+" source local config, if exists
+" leave at the end so defaults can be overridden
+let local_config = $HOME . "/.config/nvim/local.vim"
+if filereadable(local_config)
+    execute "source " . local_config
+endif
