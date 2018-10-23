@@ -3,7 +3,7 @@ Minimal productive configuration
 
 requires neovim or vim 8+ (tested on neovim)
 
-![](https://raw.github.com/lifepillar/Resources/master/solarized8/solarized8_dark_256.png)
+![](https://raw.github.com/lifepillar/Resources/master/solarized8/solarized8_dark_flat.png)
 
 ```vim
 colorscheme solarized8_high
@@ -32,18 +32,39 @@ Completion:
 
 Plugins:
 - vim-surround + vim-jdaddy + vim-ragtag
+  - surround word objects with braces/brackets/tags
+  - extends vim word objects for json and tags
 - auto-pairs
+  - automatically insert closing brackets
 - vim-commentary
+  - 'gc' to toggle comment
 - vim-unimpaired
+  - \[<space> to insert an empty line up
+  - \[e to exchange line upwards
+  - \[o to toggle options (s - spell, | - column highlight, n - absolute
+    numbering, ...)
 - vim-obsession
+  - automagical session tracking
+  - ```:Obsession``` to start
 - vim-easymotion
-- rainbow_parentheses.vim
-- vim-markdown
+  - <leader><leader> to trigger movement helper
 - vim-abolish
+  - :Abolish to create abbreviations for derivations
+  - :Subvert to search for derivations
+  - crc (coerce camel case), csc (coerce snake case), ...
 - vim-eunuch
+  - commands for Linux move/rename
 - vim-vinegar
+  - sane defaults for netrw
+  - '-' to jump into directory view
 - vim-css-color
+  - shows css color as background
 - vim-repeat
+  - makes plugins '.' repeatable
+- rainbow_parentheses.vim
+  - colors matching parentheses for lisp dialects
+- vim-markdown
+  - sane defaults for markdown files
 
 Git plugins:
 - vim-git
