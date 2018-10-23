@@ -53,7 +53,12 @@ Plugins:
   - :Subvert to search for derivations
   - crc (coerce camel case), csc (coerce snake case), ...
 - vim-eunuch
-  - commands for Linux move/rename
+  - commands for Linux file handling: ```:Move```, ```:Rename```, ```:Delete```, ```:Chmod```, ```:SudoWrite```, ...
+  - new files with shebang are made executable
+  - new init scripts are prepopulated with ```/etc/init.d/skeleton```
+- vim-trailing-whitespace
+  - highlight trailing whitespace
+  - ```:FixWhitespace``` for quick fix
 - vim-vinegar
   - sane defaults for netrw
   - '-' to jump into directory view
