@@ -76,3 +76,9 @@
 [submodule "pack/plugins/start/denite.nvim"]
 	path = pack/plugins/start/denite.nvim
 	url = https://github.com/Shougo/denite.nvim
+[submodule "pack/plugins/start/ultisnips"]
+	path = pack/plugins/start/ultisnips
+	url = https://github.com/SirVer/ultisnips
+[submodule "pack/plugins/start/vim-snippets"]
+	path = pack/plugins/start/vim-snippets
+	url = https://github.com/honza/vim-snippets/tree/master/UltiSnips

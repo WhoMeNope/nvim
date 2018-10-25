@@ -29,7 +29,7 @@ Completion:
 - coc.nvim
 	- LSP (language server protocol) enabled completion engine, for full IDE level language support
 	- see [this link](https://github.com/neoclide/coc.nvim/wiki/Using-coc-extensions) for help with installing extensions
-- neosnippet.vim + neosnippet-snippets
+- UltiSnips, vim-snippets
 	- code snippets for coc.nvim
 - Denite
   - coc dialogues
