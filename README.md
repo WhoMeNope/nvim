@@ -2,6 +2,8 @@
 Minimal productive configuration
 
 requires neovim or vim 8+ (tested on neovim)
+(for full functionality also requires pyhton 2 and python 3 and corresponding vim mappings installed)
+(usage of a fuzzy finder for files is recommended: FZF, CtrlP, ...)
 
 ![](https://raw.github.com/lifepillar/Resources/master/solarized8/solarized8_dark_flat.png)
 
@@ -29,6 +31,8 @@ Completion:
 	- see [this link](https://github.com/neoclide/coc.nvim/wiki/Using-coc-extensions) for help with installing extensions
 - neosnippet.vim + neosnippet-snippets
 	- code snippets for coc.nvim
+- Denite
+  - coc dialogues
 
 Plugins:
 - vim-surround + vim-jdaddy + vim-ragtag
@@ -37,17 +41,17 @@ Plugins:
 - auto-pairs
   - automatically insert closing brackets
 - vim-commentary
-  - 'gc' to toggle comment
+  - ```gc<MOTION>``` to comment/uncomment
 - vim-unimpaired
-  - \[<space> to insert an empty line up
-  - \[e to exchange line upwards
-  - \[o to toggle options (s - spell, | - column highlight, n - absolute
+  - ```[<space>``` to insert an empty line up
+  - ```]e``` to exchange line downwards
+  - ```[o``` to toggle options (s - spell, | - column highlight, n - absolute
     numbering, ...)
 - vim-obsession
-  - automagical session tracking
+  - automagical session tracking (creates + updates + sources Session.vim)
   - ```:Obsession``` to start
 - vim-easymotion
-  - <leader><leader> to trigger movement helper
+  - ```<leader><leader>``` to trigger movement helper
 - vim-abolish
   - :Abolish to create abbreviations for derivations
   - :Subvert to search for derivations
@@ -61,11 +65,11 @@ Plugins:
   - ```:FixWhitespace``` for quick fix
 - vim-vinegar
   - sane defaults for netrw
-  - '-' to jump into directory view
+  - ```-``` to jump into directory view
 - vim-css-color
   - shows css color as background
 - vim-repeat
-  - makes plugins '.' repeatable
+  - makes plugins ```.``` repeatable
 - rainbow_parentheses.vim
   - colors matching parentheses for lisp dialects
 - vim-markdown
@@ -73,8 +77,15 @@ Plugins:
 
 Git plugins:
 - vim-git
-- vim-gitgutter
+  - syntax, indent, filetype detect for ```git, gitcommit, gitconfig, gitrebase, and gitsendemail```
 - vim-fugitive
+  - ```:Gstatus``` for ```git status```, use ```-``` to add/reset changes
+  - ```:Gdiff``` to see changes and stage a subset of them
+  - ```:Gcommit``` to commit (brings up a message buffer)
+  - ```:Ggrep``` ```:Gmove``` ```:Gdelete``` ...
+  - shows changes + branch in the status line
+- vim-gitgutter
+  - shows git changes in the sign collumn
 
 ---
 by [WhoMeNope](https://github.com/whomenope/nvim)

@@ -1,3 +1,9 @@
+" integrate with arline
+let g:airline_section_error = '%{airline#util#wrap(airline#extensions#coc#get_error(),0)}'
+let g:airline_section_warning = '%{airline#util#wrap(airline#extensions#coc#get_warning(),0)}'
+
+" Basic settings {{{ "
+
 " if hidden not set, TextEdit might fail.
 set hidden
 
@@ -10,9 +16,9 @@ set updatetime=300
 " always show signcolumn
 set signcolumn=yes
 
-" integrate with arline
-let g:airline_section_error = '%{airline#util#wrap(airline#extensions#coc#get_error(),0)}'
-let g:airline_section_warning = '%{airline#util#wrap(airline#extensions#coc#get_warning(),0)}'
+" }}} Basic settings "
+
+" Key mappings - completion {{{ "
 
 " use <tab> for trigger completion and navigate next complete item
 function! s:check_back_space() abort
@@ -40,6 +46,22 @@ imap <silent> <C-x><C-o> <Plug>(coc-complete-custom)
 " close completion window on done
 autocmd! CompleteDone * if pumvisible() == 0 | pclose | endif
 
+" Use K for show documentation in preview window
+function! s:show_documentation()
+  if &filetype == 'vim'
+    execute 'h '.expand('<cword>')
+  else
+    call CocAction('doHover')
+  endif
+endfunction
+nnoremap <silent> K :call <SID>show_documentation()<CR>
+
+" }}} Key mappings - completion "
+
+" Key mappings - navigation {{{ "
+
+" Remap for rename current word
+nmap <leader>rn <Plug>(coc-rename)
 
 " Use `[c` and `]c` for navigate diagnostics
 nmap <silent> [c <Plug>(coc-diagnostic-prev)
@@ -51,29 +73,17 @@ nmap <silent> gy <Plug>(coc-type-definition)
 nmap <silent> gi <Plug>(coc-implementation)
 nmap <silent> gr <Plug>(coc-references)
 
-
-" Use K for show documentation in preview window
-function! s:show_documentation()
-  if &filetype == 'vim'
-    execute 'h '.expand('<cword>')
-  else
-    call CocAction('doHover')
-  endif
-endfunction
-nnoremap <silent> K :call <SID>show_documentation()<CR>
-
 " Show signature help while editing
 autocmd CursorHoldI * silent! call CocAction('showSignatureHelp')
 
 " Highlight symbol under cursor on CursorHold
 autocmd CursorHold * silent call CocActionAsync('highlight')
 
-" Remap for rename current word
-nmap <leader>rn <Plug>(coc-rename)
-
 " Remap for format selected region
-vmap <leader>f  <Plug>(coc-format-selected)
-nmap <leader>f  <Plug>(coc-format-selected)
+vmap <leader>f <Plug>(coc-format-selected)
+nmap <leader>f <Plug>(coc-format-selected)
+
+" }}} Key mappings - navigation "
 
   " " Remap for do codeAction of selected region, ex: `<leader>aap` for current paragraph
   " vmap <leader>a  <Plug>(coc-codeaction-selected)
@@ -82,22 +92,29 @@ nmap <leader>f  <Plug>(coc-format-selected)
   " " Remap for do codeAction of current line
   " nmap <leader>ac  <Plug>(coc-codeaction)
 
+" Commands {{{ "
+
 " Use `:Format` for format current buffer
 command! -nargs=0 Format :call CocAction('format')
 
 " Use `:Fold` for fold current buffer
-command! -nargs=? Fold :call     CocAction('fold', <f-args>)
+command! -nargs=? Fold :call CocAction('fold', <f-args>)
 
-  " " Shortcuts for denite interface
-  " " Show symbols of current buffer
-  " nnoremap <silent> <space>o  :<C-u>Denite coc-symbols<cr>
-  " " Search symbols of current workspace
-  " nnoremap <silent> <space>t  :<C-u>Denite coc-workspace<cr>
-  " " Show diagnostics of current workspace
-  " nnoremap <silent> <space>a  :<C-u>Denite coc-diagnostic<cr>
-  " " Show available commands
-  " nnoremap <silent> <space>c  :<C-u>Denite coc-command<cr>
-  " " Show available services
-  " nnoremap <silent> <space>s  :<C-u>Denite coc-service<cr>
-  " " Show links of current buffer
-  " nnoremap <silent> <space>l  :<C-u>Denite coc-link<cr>
+" }}} Commands "
+
+" Denite shortcuts {{{ "
+
+" Show symbols of current buffer
+nnoremap <silent> <leader>co  :<C-u>Denite coc-symbols<cr>
+" Search symbols of current workspace
+nnoremap <silent> <leader>cw  :<C-u>Denite coc-workspace<cr>
+" Show diagnostics of current workspace
+nnoremap <silent> <leader>cd  :<C-u>Denite coc-diagnostic<cr>
+" Show available commands
+nnoremap <silent> <leader>cc  :<C-u>Denite coc-command<cr>
+" Show available services
+nnoremap <silent> <leader>cs  :<C-u>Denite coc-service<cr>
+" Show links of current buffer
+nnoremap <silent> <leader>cl  :<C-u>Denite coc-link<cr>
+
+" }}} Denite shortcuts "
