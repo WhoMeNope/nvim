@@ -9,6 +9,6 @@ autocmd BufLeave term://* stopinsert
 nnoremap <leader>tv :vs<CR>:terminal<CR>i
 nnoremap <leader>ts :sp<CR>:terminal<CR>i
 nnoremap <leader>tt :tabedit<CR>:terminal<CR>i
-tnoremap <C-q> <C-\><C-n>:q<CR>
+tnoremap <C-q> <C-\><C-n>:bdelete<CR>
 tnoremap <C-w><C-w> <C-\><C-n><C-w><C-w>
 tnoremap gt <C-\><C-n>gt

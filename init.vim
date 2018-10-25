@@ -95,7 +95,8 @@ nnoremap <silent> <leader>w :<C-U>wa<CR>
 nnoremap <silent> <leader>qq :<C-U>wqa<CR>
 " close current
 fun! CloseCurrent()
-    if &readonly || @% == ""
+    :
+    if &readonly || @% == "" || &buftype == 'nofile'
         execute ':q'
     else
         execute ':wq'
@@ -127,10 +128,6 @@ nnoremap <silent> <C-L> :nohlsearch<CR><C-L>
 
 " Search and Replace
 nnoremap <Leader>sr :%s//g<Left><Left>
-
-" Open configs
-nnoremap <silent> <leader>ev :tabedit $MYVIMRC<CR>
-nnoremap <silent> <leader>sv :source $MYVIMRC<CR>
 
 " Oh Goodies
 command! WQ wq
@@ -229,7 +226,18 @@ endif
 
 " source local config, if exists
 " leave at the end so defaults can be overridden
-let local_config = $HOME . "/.config/nvim/local.vim"
+let g:local_config = $HOME . "/.config/nvim/local.vim"
+
+fun! OpenLocalConfig()
+    :exe ":tabedit " . g:local_config
+endfun
+func! SourceLocalConfig()
+    :exe ":source " . g:local_config
+endfun
+
+nnoremap <silent> <leader>ev :call OpenLocalConfig()<CR>
+nnoremap <silent> <leader>sv :call SourceLocalConfig()<CR>
+
 if filereadable(local_config)
-    execute "source " . local_config
+    call SourceLocalConfig()
 endif
