@@ -16,7 +16,7 @@ endif
 " Netrw ---------------------- {{{
 
 let g:netrw_preview   = 1
-let g:netrw_liststyle = 3
+let g:netrw_liststyle = 2
 let g:netrw_winsize   = 20
 let g:netrw_banner    = 0
 let g:netrw_altv      = 1
@@ -95,11 +95,12 @@ nnoremap <silent> <leader>w :<C-U>wa<CR>
 nnoremap <silent> <leader>qq :<C-U>wqa<CR>
 " close current
 fun! CloseCurrent()
-    :
+    " let ntabs = call tabpagenr('$')
+    " let nwins = call winnr('$')
     if &readonly || @% == "" || &buftype == 'nofile'
-        execute ':q'
+        :execute ':q'
     else
-        execute ':wq'
+        :execute ':wq'
     endif
 endfun
 nnoremap <silent> <C-c> :<C-u>call CloseCurrent()<CR>
@@ -206,9 +207,6 @@ augroup END
 
 " disable moving parentheses - detects '<' as a start of sequence in insert mode
 let g:AutoPairsMoveCharacter=""
-
-" abbreviations
-iabbrev lenght length
 
 " don't open lines with comments
 " don't insert comment leader in insert mode
