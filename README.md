@@ -35,9 +35,10 @@ Completion:
   - coc dialogues
 
 Plugins:
-- vim-surround + vim-jdaddy + vim-ragtag
+- vim-surround
   - surround word objects with braces/brackets/tags
-  - extends vim word objects for json and tags
+- targets.vim
+  - extends vim word objects for json and tags, arguments, quotes, ...
 - auto-pairs
   - automatically insert closing brackets
 - vim-commentary
