@@ -91,6 +91,8 @@ let g:airline_section_z = '%3p%% %3l/%L:%3v'
 
 " write all
 nnoremap <silent> <leader>w :<C-U>wa<CR>
+" write single
+nnoremap <C-S> :w<CR>
 " write all and quit
 nnoremap <silent> <leader>qq :<C-U>wqa<CR>
 " close current
@@ -118,6 +120,7 @@ nnoremap <leader>swv <C-w>t<C-w>H
 
 " next split
 nnoremap <CR> <C-w><C-w>
+nnoremap <TAB> <C-w><C-w>
 
 " switch buffer
 nnoremap <silent> <C-n> :w<CR>:bnext<CR>
@@ -143,7 +146,9 @@ command! QA qa
 
 nnoremap Q @q
 
-inoremap <C-E> <C-O><C-E>
+" Shift view by 5 lines
+nnoremap <C-E> <C-E><C-E><C-E><C-E><C-E>
+inoremap <C-E> <C-O><C-E><C-O><C-E><C-O><C-E><C-O><C-E><C-O><C-E>
 
 " Reindent the whole file
 nnoremap <leader>ri migg=G`i
