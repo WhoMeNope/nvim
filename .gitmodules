@@ -1,6 +1,3 @@
-[submodule "pack/plugins/start/supertab"]
-	path = pack/plugins/start/supertab
-	url = https://github.com/ervandew/supertab
 [submodule "pack/plugins/start/vim-unimpaired"]
 	path = pack/plugins/start/vim-unimpaired
 	url = https://github.com/tpope/vim-unimpaired
@@ -10,9 +7,6 @@
 [submodule "pack/plugins/start/vim-airline"]
 	path = pack/plugins/start/vim-airline
 	url = https://github.com/vim-airline/vim-airline
-[submodule "pack/plugins/start/vim-illuminate"]
-	path = pack/plugins/start/vim-illuminate
-	url = https://github.com/RRethy/vim-illuminate
 [submodule "pack/plugins/start/vim-abolish"]
 	path = pack/plugins/start/vim-abolish
 	url = https://github.com/tpope/vim-abolish
@@ -70,3 +64,5 @@
 [submodule "pack/plugins/start/denite.nvim"]
 	path = pack/plugins/start/denite.nvim
 	url = https://github.com/Shougo/denite.nvim
+[submodule "pack/plugins/start/vim-ragtag"]
+	url = https://github.com/tpope/vim-ragtag
