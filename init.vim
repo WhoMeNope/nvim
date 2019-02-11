@@ -8,9 +8,9 @@ let mapleader = "\<space>"
 let maplocalleader = "\<space>"
 
 " source terminal config, if exists and terminal is supported
-let terminal_config = $HOME . "/.config/nvim/terminal.vim"
+let g:terminal_config = $HOME . "/.config/nvim/terminal.vim"
 if filereadable(terminal_config) && exists(':tnoremap')
-    execute "source " . terminal_config
+    execute "source " . g:terminal_config
 endif
 
 " Netrw ---------------------- {{{
@@ -31,6 +31,9 @@ nnoremap <leader>l :Lexplore<CR>
 " Setup undofiles
 set nobackup undofile
 
+" check for external file changes when editing stops
+au CursorHold,CursorHoldI * checktime
+
 " Set numbers, scrolloffset
 set ruler number relativenumber
 set scrolloff=3
@@ -45,6 +48,7 @@ set cursorline
 
 " window behaviour
 set splitright splitbelow
+set switchbuf="vsplit"
 
 " show matching paren on closing for n 10ths of second
 set showmatch matchtime=1
@@ -95,6 +99,7 @@ nnoremap <silent> <leader>w :<C-U>wa<CR>
 nnoremap <C-S> :w<CR>
 " write all and quit
 nnoremap <silent> <leader>qq :<C-U>wqa<CR>
+
 " close current
 fun! CloseCurrent()
     " let ntabs = call tabpagenr('$')
@@ -106,7 +111,6 @@ fun! CloseCurrent()
     endif
 endfun
 nnoremap <silent> <C-c> :<C-u>call CloseCurrent()<CR>
-nnoremap <silent> <leader>c :<C-u>call CloseCurrent()<CR>
 
 " Edit new file
 nnoremap <leader>nn :<C-U>e<SPACE>
@@ -119,13 +123,13 @@ nnoremap <leader>swh <C-w>t<C-w>K
 nnoremap <leader>swv <C-w>t<C-w>H
 
 " next split
-nnoremap <CR> <C-w><C-w>
 nnoremap <TAB> <C-w><C-w>
 
 " switch buffer
 nnoremap <silent> <C-n> :w<CR>:bnext<CR>
 nnoremap <silent> <C-p> :w<CR>:bprevious<CR>
-nnoremap <silent> <C-x> :w<CR>:bdelete<CR>
+" delete buffer + move to next
+nnoremap <silent> <C-x> :w<CR>:bprevious\|bd#<CR>
 
 " Use <C-L> to clear the highlighting of :set hlsearch.
 nnoremap <silent> <C-L> :nohlsearch<CR><C-L>
@@ -149,9 +153,16 @@ nnoremap Q @q
 " Shift view by 5 lines
 nnoremap <C-E> <C-E><C-E><C-E><C-E><C-E>
 inoremap <C-E> <C-O><C-E><C-O><C-E><C-O><C-E><C-O><C-E><C-O><C-E>
+nnoremap <C-Y> <C-Y><C-Y><C-Y><C-Y><C-Y>
+inoremap <C-Y> <C-O><C-Y><C-O><C-Y><C-O><C-Y><C-O><C-Y><C-O><C-Y>
 
 " Reindent the whole file
 nnoremap <leader>ri migg=G`i
+
+" Re-Source configuration
+nnoremap <leader>sv :source ~/.config/nvim/init.vim<CR>
+
+" }}}
 
 " read the manual for underlying word
 fun! ReadMan()
@@ -164,8 +175,6 @@ nnoremap M :call ReadMan()<CR>
 
 " Clear all registers
 command! WipeReg for i in range(34,122) | silent! call setreg(nr2char(i), []) | endfor
-
-" }}}
 
 " Filetype specific---------------------- {{{
 
@@ -222,25 +231,15 @@ augroup global
 augroup END
 
 " source coc config, if exists
-let coc_config = $HOME . "/.config/nvim/coc.vim"
+let g:coc_config = $HOME . "/.config/nvim/coc.vim"
 if filereadable(coc_config)
-    execute "source " . coc_config
+    execute "source " . g:coc_config
 endif
 
 " source local config, if exists
 " leave at the end so defaults can be overridden
 let g:local_config = $HOME . "/.config/nvim/local.vim"
-
-fun! OpenLocalConfig()
-    :exe ":tabedit " . g:local_config
-endfun
-func! SourceLocalConfig()
-    :exe ":source " . g:local_config
-endfun
-
-nnoremap <silent> <leader>ev :call OpenLocalConfig()<CR>
-nnoremap <silent> <leader>sv :call SourceLocalConfig()<CR>
-
 if filereadable(local_config)
-    call SourceLocalConfig()
+    execute "source " . g:local_config
 endif
+

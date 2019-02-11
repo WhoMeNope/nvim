@@ -23,15 +23,13 @@ set signcolumn=yes
 " use <tab> for trigger completion and navigate next complete item
 function! s:check_back_space() abort
   let col = col('.') - 1
-  return !col || getline('.')[col - 1]  =~# '\s'
+  return !col || getline('.')[col - 1]  =~ '\s'
 endfunction
 
-" Use tab for trigger completion with characters ahead and navigate.
 inoremap <silent><expr> <TAB>
       \ pumvisible() ? "\<C-n>" :
       \ <SID>check_back_space() ? "\<TAB>" :
       \ coc#refresh()
-inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
 
 " Use <c-space> for trigger completion.
 inoremap <silent><expr> <c-space> coc#refresh()
@@ -57,6 +55,11 @@ endfunction
 nnoremap <silent> K :call <SID>show_documentation()<CR>
 
 " }}} Key mappings - completion "
+
+" UltiSnips
+let g:UltiSnipsExpandTrigger="<c-=>"
+let g:UltiSnipsJumpForwardTrigger="<c-0>"
+let g:UltiSnipsJumpBackwardTrigger="<c-9>"
 
 " Key mappings - navigation {{{ "
 
@@ -118,3 +121,4 @@ nnoremap <silent> <leader>cs  :<C-u>Denite coc-service<cr>
 nnoremap <silent> <leader>cl  :<C-u>Denite coc-link<cr>
 
 " }}} Denite shortcuts "
+
