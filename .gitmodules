@@ -66,3 +66,9 @@
 	url = https://github.com/Shougo/denite.nvim
 [submodule "pack/plugins/start/vim-ragtag"]
 	url = https://github.com/tpope/vim-ragtag
+[submodule "pack/plugins/start/coc-sources"]
+	path = pack/plugins/start/coc-sources
+	url = https://github.com/neoclide/coc-sources
+[submodule "pack/plugins/start/ferret"]
+	path = pack/plugins/start/ferret
+	url = https://github.com/wincent/ferret
