@@ -122,3 +122,6 @@ nnoremap <silent> <leader>cl  :<C-u>Denite coc-link<cr>
 
 " }}} Denite shortcuts "
 
+" enable symbol highlighting
+autocmd CursorHold * silent call CocActionAsync('highlight')
+
