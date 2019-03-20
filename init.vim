@@ -84,6 +84,7 @@ set background=dark
 set noshowmode " Hide mode indicator - included in airline
 
 let g:airline#extensions#tabline#enabled = 1
+let g:airline#extensions#tabline#buffer_idx_mode = 1
 "let g:airline#extensions#whitespace#enabled = 0
 let g:airline#parts#ffenc#skip_expected_string='utf-8[unix]'
 let g:airline_section_c = '%{ObsessionStatus()} %f'
@@ -122,14 +123,27 @@ nnoremap <leader>nt :<C-U>tabedit<SPACE>
 nnoremap <leader>swh <C-w>t<C-w>K
 nnoremap <leader>swv <C-w>t<C-w>H
 
-" next split
-nnoremap <TAB> <C-w><C-w>
+" cycle windows
+nnoremap <silent> <TAB> <C-w><C-w>:if &buftype ==# 'quickfix'<Bar>wincmd w<Bar>endif<CR>
+nnoremap <silent> <C-TAB> <C-w><C-w>
 
 " switch buffer
 nnoremap <silent> <C-n> :w<CR>:bnext<CR>
 nnoremap <silent> <C-p> :w<CR>:bprevious<CR>
 " delete buffer + move to next
-nnoremap <silent> <C-x> :w<CR>:bprevious\|bd#<CR>
+fun! BufferDeleteCurrent()
+    if &readonly
+        :execute 'bprevious'
+        :execute 'bd#'
+    else
+        :execute 'w'
+        :execute 'bprevious'
+        :execute 'bd#'
+    endif
+endfun
+nnoremap <silent> <C-x> :call BufferDeleteCurrent()<CR>
+" choose buffer
+nnoremap <Leader>b :set nomore<Bar>:ls<Bar>:set more<CR>:b<Space>
 
 " Use <C-L> to clear the highlighting of :set hlsearch.
 nnoremap <silent> <C-L> :nohlsearch<CR><C-L>
