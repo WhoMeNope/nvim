@@ -69,3 +69,9 @@
 [submodule "pack/plugins/start/ferret"]
 	path = pack/plugins/start/ferret
 	url = https://github.com/wincent/ferret
+[submodule "pack/plugins/start/nerdtree-git-plugin"]
+	path = pack/plugins/start/nerdtree-git-plugin
+	url = https://github.com/Xuyuanp/nerdtree-git-plugin.git
+[submodule "pack/plugins/start/nerdtree"]
+	path = pack/plugins/start/nerdtree
+	url = https://github.com/scrooloose/nerdtree.git
