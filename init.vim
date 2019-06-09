@@ -3,6 +3,9 @@ if v:progname =~? "evim"
     finish
 endif
 
+" shell
+set shell=/bin/sh
+
 " Leaders
 let mapleader = "\<space>"
 let maplocalleader = "\<space>"
@@ -22,7 +25,7 @@ let g:netrw_banner    = 0
 let g:netrw_altv      = 1
 let g:netrw_list_hide = netrw_gitignore#Hide() . '.*\.swp$,.*\.un\~$,.git/$'
 
-nnoremap <leader>l :Lexplore<CR>
+nnoremap <leader>l :NERDTreeToggle<CR>
 
 " }}}
 
@@ -37,13 +40,9 @@ au CursorHold,CursorHoldI * checktime
 " Set numbers, scrolloffset
 set ruler number relativenumber
 set scrolloff=3
-
-" indentation
 set autoindent smartindent
 set tabstop=2 shiftwidth=2
 set softtabstop=-1 shiftround expandtab
-
-" cursor line
 set cursorline
 
 " window behaviour
@@ -58,10 +57,7 @@ if &t_Co > 2 || has("gui_running")
     set hlsearch incsearch
 endif
 
-" enable syntax files
 syntax on
-
-" enable filetype plugins
 filetype on
 filetype plugin indent on
 
@@ -74,9 +70,9 @@ set nostartofline
 
 let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
 let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
-set termguicolors
+" set termguicolors
 
-let g:solarized_visibility = 'high'
+" let g:solarized_visibility = 'high'
 let g:solarized_extra_hi_groups = 1
 colorscheme solarized8_high
 set background=dark
@@ -97,7 +93,7 @@ let g:airline_section_z = '%3p%% %3l/%L:%3v'
 " write all
 nnoremap <silent> <leader>w :<C-U>wa<CR>
 " write single
-nnoremap <C-S> :w<CR>
+nnoremap <C-S> :<C-U>w<CR>
 " write all and quit
 nnoremap <silent> <leader>qq :<C-U>wqa<CR>
 
@@ -112,6 +108,8 @@ fun! CloseCurrent()
     endif
 endfun
 nnoremap <silent> <C-c> :<C-u>call CloseCurrent()<CR>
+" close all auxiliary windows (quickfix, help, loclist, preview)
+nnoremap <silent> <C-q> :<C-u>cclose<CR>:helpclose<CR>:lclose<CR>:pclose<CR>
 
 " Edit new file
 nnoremap <leader>nn :<C-U>e<SPACE>
@@ -124,24 +122,46 @@ nnoremap <leader>swh <C-w>t<C-w>K
 nnoremap <leader>swv <C-w>t<C-w>H
 
 " cycle windows
-nnoremap <silent> <TAB> <C-w><C-w>:if &buftype ==# 'quickfix'<Bar>wincmd w<Bar>endif<CR>
+fun! NextBufferWindow()
+    let last = winnr('$')
+    let current = winnr()
+    let new = current + 1
+    while new <= last
+      " if not a special window
+      if (getwinvar(new, '&syntax') != 'qf')
+        execute new.'wincmd w'
+        return
+      endif
+      let new = new + 1
+    endwhile
+    let new = 1
+    while new <= current
+      " if not a special window
+      if (getwinvar(new, '&syntax') != 'qf')
+        execute new.'wincmd w'
+        return
+      endif
+      let new = new + 1
+    endwhile
+endfun
+nnoremap <silent> <TAB> :<C-u>call NextBufferWindow()<CR>
 nnoremap <silent> <C-TAB> <C-w><C-w>
 
 " switch buffer
-nnoremap <silent> <C-n> :w<CR>:bnext<CR>
-nnoremap <silent> <C-p> :w<CR>:bprevious<CR>
+nnoremap <silent> <C-N> :w<CR>:bnext<CR>
+nnoremap <silent> <C-P> :w<CR>:bprevious<CR>
 " delete buffer + move to next
 fun! BufferDeleteCurrent()
     if &readonly
-        :execute 'bprevious'
-        :execute 'bd#'
+        execute 'bprevious'
+        execute 'bd#'
     else
-        :execute 'w'
-        :execute 'bprevious'
-        :execute 'bd#'
+        execute 'w'
+        execute 'bprevious'
+        execute 'bd#'
     endif
 endfun
-nnoremap <silent> <C-x> :call BufferDeleteCurrent()<CR>
+nnoremap <silent> <C-X> :call BufferDeleteCurrent()<CR>
 " choose buffer
 nnoremap <Leader>b :set nomore<Bar>:ls<Bar>:set more<CR>:b<Space>
 
@@ -151,17 +171,6 @@ nnoremap <silent> <C-L> :nohlsearch<CR><C-L>
 " Search and Replace
 nnoremap <Leader>sr :%s//g<Left><Left>
 
-" Oh Goodies
-command! WQ wq
-command! WQA wqa
-command! Wqa wqa
-command! W w
-command! Wa wa
-command! WA wa
-command! Q q
-command! Qa qa
-command! QA qa
-
 nnoremap Q @q
 
 " Shift view by 5 lines
@@ -170,11 +179,8 @@ inoremap <C-E> <C-O><C-E><C-O><C-E><C-O><C-E><C-O><C-E><C-O><C-E>
 nnoremap <C-Y> <C-Y><C-Y><C-Y><C-Y><C-Y>
 inoremap <C-Y> <C-O><C-Y><C-O><C-Y><C-O><C-Y><C-O><C-Y><C-O><C-Y>
 
-" Reindent the whole file
-nnoremap <leader>ri migg=G`i
-
-" Re-Source configuration
-nnoremap <leader>sv :source ~/.config/nvim/init.vim<CR>
+" " Reindent the whole file
+" nnoremap <leader>ri migg=G`i
 
 " }}}
 
@@ -209,7 +215,7 @@ augroup END
 augroup filetype_markdown
     autocmd!
     autocmd FileType markdown setlocal tw=72 spell wrap
-    autocmd FileType markdown packadd markdown-preview.vim
+    autocmd FileType markdown packadd markdown-preview.nvim
 augroup END
 
 " SQL
@@ -256,4 +262,7 @@ let g:local_config = $HOME . "/.config/nvim/local.vim"
 if filereadable(local_config)
     execute "source " . g:local_config
 endif
+
+" Re-Source configuration
+nnoremap <silent> <leader>sv :<C-U>source ~/.config/nvim/init.vim<CR>:nohlsearch<CR>
 
