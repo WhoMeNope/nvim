@@ -44,16 +44,6 @@ imap <silent> <C-x><C-o> <Plug>(coc-complete-custom)
 " close completion window on done
 autocmd! CompleteDone * if pumvisible() == 0 | pclose | endif
 
-" Use K for show documentation in preview window
-function! s:show_documentation()
-  if &filetype == 'vim'
-    execute 'h '.expand('<cword>')
-  else
-    call CocAction('doHover')
-  endif
-endfunction
-nnoremap <silent> K :call <SID>show_documentation()<CR>
-
 " }}} Key mappings - completion "
 
 " UltiSnips
@@ -77,8 +67,7 @@ nmap <silent> gi <Plug>(coc-implementation)
 nmap <silent> gr <Plug>(coc-references)
 
 " Show signature help while editing
-autocmd CursorHoldI * silent! call CocAction('showSignatureHelp')
-
+autocmd CursorHoldI * silent! call CocActionAsync('showSignatureHelp')
 " Highlight symbol under cursor on CursorHold
 autocmd CursorHold * silent call CocActionAsync('highlight')
 
