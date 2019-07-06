@@ -113,4 +113,5 @@ nnoremap <silent> <leader>cl  :<C-u>Denite coc-link<cr>
 
 " enable symbol highlighting
 autocmd CursorHold * silent call CocActionAsync('highlight')
-
+" set symbol highlight color
+highlight CocHighlightText cterm=bold ctermfg=Yellow gui=bold guifg=#ff8229
