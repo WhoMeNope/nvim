@@ -44,6 +44,7 @@ set autoindent smartindent
 set tabstop=2 shiftwidth=2
 set softtabstop=-1 shiftround expandtab
 set cursorline
+set cc=80
 
 " window behaviour
 set splitright splitbelow
@@ -160,6 +161,7 @@ fun! BufferDeleteCurrent()
         execute 'bprevious'
         execute 'bd#'
     endif
+    call CloseCurrent()
 endfun
 nnoremap <silent> <C-X> :call BufferDeleteCurrent()<CR>
 " choose buffer
