@@ -25,7 +25,7 @@ let g:netrw_banner    = 0
 let g:netrw_altv      = 1
 let g:netrw_list_hide = netrw_gitignore#Hide() . '.*\.swp$,.*\.un\~$,.git/$'
 
-nnoremap <leader>l :NERDTreeToggle<CR>
+nnoremap <leader>p :NERDTreeToggle<CR>
 
 " }}}
 
@@ -73,7 +73,7 @@ let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
 let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
 " set termguicolors
 
-" let g:solarized_visibility = 'high'
+let g:solarized_visibility = 'high'
 let g:solarized_extra_hi_groups = 1
 colorscheme solarized8_high
 set background=dark
@@ -92,11 +92,9 @@ let g:airline_section_z = '%3p%% %3l/%L:%3v'
 " Key mappings ---------------------- {{{
 
 " write all
-nnoremap <silent> <leader>w :<C-U>wa<CR>
+nnoremap <leader>w :<C-U>wa<CR>
 " write single
 nnoremap <C-S> :<C-U>w<CR>
-" write all and quit
-nnoremap <silent> <leader>qq :<C-U>wqa<CR>
 
 " close current
 fun! CloseCurrent()
@@ -111,6 +109,9 @@ endfun
 nnoremap <silent> <C-c> :<C-u>call CloseCurrent()<CR>
 " close all auxiliary windows (quickfix, help, loclist, preview)
 nnoremap <silent> <C-q> :<C-u>cclose<CR>:helpclose<CR>:lclose<CR>:pclose<CR>
+
+" focus quickfix
+nnoremap <silent> <leader>q :<C-u>copen<CR>
 
 " Edit new file
 nnoremap <leader>nn :<C-U>e<SPACE>
@@ -161,7 +162,6 @@ fun! BufferDeleteCurrent()
         execute 'bprevious'
         execute 'bd#'
     endif
-    call CloseCurrent()
 endfun
 nnoremap <silent> <C-X> :call BufferDeleteCurrent()<CR>
 " choose buffer
@@ -180,9 +180,6 @@ nnoremap <C-E> <C-E><C-E><C-E><C-E><C-E>
 inoremap <C-E> <C-O><C-E><C-O><C-E><C-O><C-E><C-O><C-E><C-O><C-E>
 nnoremap <C-Y> <C-Y><C-Y><C-Y><C-Y><C-Y>
 inoremap <C-Y> <C-O><C-Y><C-O><C-Y><C-O><C-Y><C-O><C-Y><C-O><C-Y>
-
-" " Reindent the whole file
-" nnoremap <leader>ri migg=G`i
 
 " }}}
 
@@ -222,6 +219,9 @@ augroup END
 
 " SQL
 let g:omni_sql_no_default_maps = 1
+
+" Scala
+au BufRead,BufNewFile *.sbt set filetype=scala
 
 " Assembly
 augroup filetype_asm
